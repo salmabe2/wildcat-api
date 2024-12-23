@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
-@Schema()
+@Schema({collection: 'study-areas'})
 export class StudyArea {
 
   @Prop({ unique: true, required: true })
