@@ -1,33 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePartnerDto } from './dto/create-partner.dto';
-import { UpdatePartnerDto } from './dto/update-partner.dto';
-import { InjectModel } from '@nestjs/mongoose';
-import { Partner } from './entities/partner.entity';
-import { Model } from 'mongoose';
+
+import * as path from 'path';
+import * as fs from 'fs';
 
 @Injectable()
 export class PartnerService {
-  constructor(
-    @InjectModel(Partner.name)
-    private partnerModel: Model<Partner>
-  ){}
-  // create(createPartnerDto: CreatePartnerDto) {
-  //   return 'This action adds a new partner';
-  // }
+  private readonly dataPath = path.join(
+    __dirname,
+    '..',
+    'data',
+    'partners.json',
+  );
 
   findAll() {
-    return this.partnerModel.find();
+    const raw = fs.readFileSync(this.dataPath, 'utf-8');
+    return JSON.parse(raw);
   }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} partner`;
-  // }
-
-  // update(id: number, updatePartnerDto: UpdatePartnerDto) {
-  //   return `This action updates a #${id} partner`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} partner`;
-  // }
+  findOne(id: number) {
+    const partners = this.findAll();
+    return partners.find(partner => partner.id === id);
+  }
 }

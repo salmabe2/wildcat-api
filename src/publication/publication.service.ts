@@ -1,35 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePublicationDto } from './dto/create-publication.dto';
-import { UpdatePublicationDto } from './dto/update-publication.dto';
-import { InjectModel } from '@nestjs/mongoose';
-import { Publication } from './entities/publication.entity';
-import { Model } from 'mongoose';
+
+import * as path from 'path';
+import * as fs from 'fs';
 
 @Injectable()
 export class PublicationService {
-
-  constructor(
-    @InjectModel(Publication.name)
-    private publicationModel: Model<Publication>
-  ) { }
-
-  // create(createPublicationDto: CreatePublicationDto) {
-  //   return 'This action adds a new publication';
-  // }
+  private readonly dataPath = path.join(
+    __dirname,
+    '..',
+    'data',
+    'publications.json',
+  );
 
   findAll() {
-    return this.publicationModel.find();
+    const raw = fs.readFileSync(this.dataPath, 'utf-8');
+    return JSON.parse(raw);
   }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} publication`;
-  // }
-
-  // update(id: number, updatePublicationDto: UpdatePublicationDto) {
-  //   return `This action updates a #${id} publication`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} publication`;
-  // }
+  findOne(id: number) {
+    const publications = this.findAll();
+    return publications.find(publication => publication.id === id);
+  }
 }

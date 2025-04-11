@@ -1,35 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 
-import { CreateStudyAreaDto } from './dto/create-study-area.dto';
-import { UpdateStudyAreaDto } from './dto/update-study-area.dto';
-import { StudyArea } from './entities/study-area.entity';
+import * as path from 'path';
+import * as fs from 'fs';
 
 @Injectable()
 export class StudyAreaService {
-  constructor(
-    @InjectModel(StudyArea.name)
-    private studyAreaModel: Model<StudyArea>
-  ) { }
+  private readonly dataPath = path.join(
+    __dirname,
+    '..',
+    'data',
+    'study-areas.json',
+  );
 
-  // create(createStudyAreaDto: CreateStudyAreaDto) {
-  //   return 'This action adds a new studyArea';
-  // }
-
-  findAll(): Promise<StudyArea[]> {
-    return this.studyAreaModel.find();
+  findAll() {
+    const raw = fs.readFileSync(this.dataPath, 'utf-8');
+    return JSON.parse(raw);
   }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} studyArea`;
-  // }
-
-  // update(id: number, updateStudyAreaDto: UpdateStudyAreaDto) {
-  //   return `This action updates a #${id} studyArea`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} studyArea`;
-  // }
+  findOne(id: number) {
+    const areas = this.findAll();
+    return areas.find(area => area.id === id);
+  }
 }
