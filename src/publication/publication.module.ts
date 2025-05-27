@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
-// import { MongooseModule } from '@nestjs/mongoose';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { PublicationService } from './publication.service';
+import { Publication } from './entities/publication.entity';
 import { PublicationController } from './publication.controller';
-import { Publication, PublicationSchema } from './entities/publication.entity';
+import { PublicationService } from './publication.service';
 
 @Module({
   controllers: [PublicationController],
   providers: [PublicationService],
   imports: [
-    // MongooseModule.forFeature([{ name: Publication.name, schema: PublicationSchema }])
-  ]
+    // TypeOrmModule.forFeature([Publication])
+  ],
 })
-export class PublicationModule { }
+export class PublicationModule {}

@@ -18,7 +18,11 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "convert:data": "ts-node scripts/convert-partners.ts && ts-node scripts/convert-publications.ts && ts-node scripts/convert-study-areas.ts"
+    "convert:data": "ts-node scripts/convert-areas.ts && ts-node scripts/convert-publications.ts",
+    "typeorm": "typeorm-ts-node-esm",
+    "migration:generate": "npm run typeorm migration:generate -d src/data-source.ts",
+    "migration:run": "npm run typeorm migration:run -d src/data-source.ts",
+    "migration:revert": "npm run typeorm migration:revert -d src/data-source.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -27,9 +31,13 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/mongoose": "^10.1.0",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/typeorm": "^11.0.0",
+    "csv-parse": "^5.6.0",
     "mongoose": "^8.9.2",
+    "pg": "^8.16.0",
     "reflect-metadata": "^0.2.0",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "typeorm": "^0.3.24"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",

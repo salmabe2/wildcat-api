@@ -4,12 +4,12 @@ import * as path from 'path';
 import * as fs from 'fs';
 
 @Injectable()
-export class StudyAreaService {
+export class AreaService {
   private readonly dataPath = path.join(
     __dirname,
     '..',
     'data',
-    'study-areas.json',
+    'areas.json',
   );
 
   findAll() {
