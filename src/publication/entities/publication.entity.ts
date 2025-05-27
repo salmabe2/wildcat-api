@@ -1,30 +1,31 @@
-import { Prop, SchemaFactory } from "@nestjs/mongoose";
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
+@Entity({ name: 'publications' })
 export class Publication {
-  @Prop({ required: true })
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ nullable: false })
   title: string;
 
-  @Prop({ required: true })
+  @Column({ nullable: false })
   date: Date;
 
-  @Prop()
+  @Column()
   type: string;
 
-  @Prop({ required: true })
-  src: string
+  @Column({ nullable: false })
+  src: string;
 
-  @Prop()
+  @Column()
   subtitle?: string;
 
-  @Prop()
+  @Column()
   img?: string;
 
-  @Prop()
+  @Column()
   imgInfo?: string;
 
-  @Prop({ default: false })
+  @Column({ default: false })
   video: boolean;
 }
-
-
-export const PublicationSchema = SchemaFactory.createForClass(Publication)
